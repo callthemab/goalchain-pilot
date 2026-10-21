@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#10151f" />
+  <title>GoalChain — eFootball Clubs</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="GoalChain home"><span class="brand-mark">G</span><span>GOAL<span class="accent">CHAIN</span><small>PLAY TOGETHER. RISE TOGETHER.</small></span></a>
+      <div class="top-actions"><span id="connectionStatus" class="status-pill">Setup required</span><button id="authButton" class="btn btn-outline">Sign in</button></div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">THE COMMUNITY LAYER FOR eFOOTBALL</p>
+        <h1>Find your people.<br><span class="accent">Build your club.</span></h1>
+        <p class="hero-text">Discover players, recruit your squad, organize matches, and climb the rankings. Your game. Your club. Your legacy.</p>
+        <div class="hero-actions"><button class="btn btn-primary" id="createClubHero">Create a club <span>↗</span></button><button class="btn btn-outline" id="exploreHero">Explore players</button></div>
+        <div class="hero-stats"><div><strong>11</strong><span>Players per squad</span></div><div><strong>01</strong><span>Community, one pitch</span></div><div><strong>0₦</strong><span>Free pilot phase</span></div></div>
+      </div>
+      <div class="hero-visual" aria-label="Abstract football pitch illustration">
+        <div class="pitch-glow"></div><div class="pitch"><div class="pitch-mid"></div><div class="center-circle"></div><div class="box-left"></div><div class="box-right"></div><div class="pitch-line"></div><span class="pitch-ball">⚽</span><span class="pitch-tag">GCT / PILOT 01</span></div>
+        <div class="floating-card card-top"><span class="live-dot"></span> CLUBS ARE BUILT HERE</div>
+        <div class="floating-card card-bottom"><span class="mini-icon">↗</span><span><b>Next level starts with a squad</b><small>Recruit · Compete · Rise</small></span></div>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Main navigation">
+      <button class="tab active" data-view="overview">Overview</button><button class="tab" data-view="players">Discover players</button><button class="tab" data-view="clubs">Clubs</button><button class="tab" data-view="invitations">Invitations</button><button class="tab" data-view="matches">Matches & rankings</button>
+    </nav>
+
+    <main>
+      <section id="setupNotice" class="notice">
+        <div class="notice-icon">⚙</div><div><strong>Connect the shared database before inviting testers</strong><p>This package is deployment-ready, but multi-player accounts require a Supabase project. Follow <b>SETUP.md</b> to configure it. Demo mode is available for previewing the interface.</p></div><button id="dismissNotice" class="icon-button" aria-label="Dismiss notice">×</button>
+      </section>
+      <section id="viewContent"></section>
+    </main>
+    <footer><span>© 2026 GoalChain · Community pilot</span><span>Built for fair play. No cash prizes during pilot.</span></footer>
+  </div>
+
+  <dialog id="authDialog" class="modal">
+    <form method="dialog" class="modal-head"><div><p class="eyebrow">YOUR PLAYER ACCOUNT</p><h2 id="authTitle">Join GoalChain</h2></div><button class="icon-button" aria-label="Close">×</button></form>
+    <div class="modal-body">
+      <div class="segmented"><button id="signupMode" class="selected">Create account</button><button id="loginMode">Sign in</button></div>
+      <label>Display name<input id="authName" placeholder="e.g. AceMilan" autocomplete="nickname" /></label>
+      <label>Email<input id="authEmail" type="email" placeholder="you@example.com" autocomplete="email" /></label>
+      <label>Password<input id="authPassword" type="password" placeholder="At least 8 characters" autocomplete="current-password" /></label>
+      <button id="submitAuth" class="btn btn-primary full">Create account</button>
+      <p id="authMessage" class="form-message"></p><p class="fine-print">Use a real email you can access. Never share your password with a club owner.</p>
+    </div>
+  </dialog>
+
+  <dialog id="clubDialog" class="modal">
+    <form method="dialog" class="modal-head"><div><p class="eyebrow">START YOUR SQUAD</p><h2>Create a club</h2></div><button class="icon-button" aria-label="Close">×</button></form>
+    <div class="modal-body"><label>Club name<input id="clubName" placeholder="e.g. Ace United" maxlength="40" /></label><label>Club tag<input id="clubTag" placeholder="e.g. ACU" maxlength="5" /></label><label>About your club<textarea id="clubDescription" rows="3" placeholder="Your play style, ambitions, and who you want to recruit"></textarea></label><button id="submitClub" class="btn btn-primary full">Create club</button><p id="clubMessage" class="form-message"></p></div>
+  </dialog>
+
+  <dialog id="playerDialog" class="modal">
+    <form method="dialog" class="modal-head"><div><p class="eyebrow">PLAYER PROFILE</p><h2 id="playerModalName">Player</h2></div><button class="icon-button" aria-label="Close">×</button></form>
+    <div id="playerModalBody" class="modal-body"></div>
+  </dialog>
+
+  <dialog id="inviteDialog" class="modal">
+    <form method="dialog" class="modal-head"><div><p class="eyebrow">RECRUITMENT</p><h2>Invite player</h2></div><button class="icon-button" aria-label="Close">×</button></form>
+    <div class="modal-body"><p id="invitePrompt">Choose a club to invite this player to.</p><label>Your club<select id="inviteClub"></select></label><label>Message (optional)<textarea id="inviteMessage" rows="3" placeholder="We'd love to have you in our squad."></textarea></label><button id="submitInvite" class="btn btn-primary full">Send invitation</button><p id="inviteFeedback" class="form-message"></p></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
